@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COLLABORATION AGENT — ALCS CO., LTD.</title>
+<meta name="description" content="株式会社ALCSの協業エージェント募集。営業から事業を作るパートナーを募集。月額20万〜100万円超の協業報酬、実績次第で起業支援も。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Syncopate:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f6f3;
+    --bg-2: #ffffff;
+    --fg: #0a0a0a;
+    --fg-2: #555555;
+    --fg-3: #888888;
+    --accent: #0066ff;
+    --accent-2: #00b86b;
+    --accent-soft: rgba(0, 102, 255, 0.18);
+    --accent-soft-2: rgba(0, 184, 107, 0.18);
+    --grid: rgba(10, 10, 10, 0.06);
+    --line: rgba(10, 10, 10, 0.12);
+    --line-key: 1px solid var(--line);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    background: var(--bg); color: var(--fg);
+    font-family: 'Noto Sans JP', sans-serif;
+    overflow-x: hidden; cursor: none;
+    min-height: 100vh;
+  }
+  .cursor {
+    position: fixed; width: 8px; height: 8px;
+    background: var(--accent); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    position: fixed; width: 40px; height: 40px;
+    border: 1px solid var(--fg); border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.4s ease, width 0.3s, height 0.3s;
+    transform: translate(-50%, -50%);
+  }
+  .grid-bg {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+  .noise {
+    position: fixed; inset: 0; z-index: 100; pointer-events: none;
+    opacity: 0.05; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Header */
+  header {
+    position: fixed; top: 0; left: 0; right: 0;
+    padding: 24px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 50;
+  }
+  .logo {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: 18px; letter-spacing: 0.3em; color: var(--fg);
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .logo::before {
+    content: '◢';
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .logo-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em; color: var(--fg-3);
+    margin-left: 4px; padding-left: 12px;
+    border-left: 1px solid var(--line);
+  }
+  nav ul {
+    display: flex; gap: 28px; list-style: none;
+  }
+  nav a {
+    color: var(--fg); text-decoration: none;
+    transition: color 0.3s;
+    display: flex; flex-direction: column; align-items: flex-start;
+    gap: 4px; line-height: 1;
+  }
+  nav a .en {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  nav a .ja {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 9px; letter-spacing: 0.15em;
+    color: var(--fg-3); font-weight: 500;
+    transition: color 0.3s;
+  }
+  nav a:hover { color: var(--accent); }
+  nav a:hover .ja { color: var(--accent); }
+  nav a.current { color: var(--accent); }
+  nav a.current .ja { color: var(--accent); }
+
+  .header-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 11px 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid transparent;
+    background-image:
+      linear-gradient(var(--bg), var(--bg)),
+      linear-gradient(120deg, var(--accent), var(--accent-2));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    color: var(--fg);
+    border-radius: 999px;
+    transition: color 0.3s;
+    position: relative; overflow: hidden;
+    margin-left: 28px;
+  }
+  .header-cta::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    transform: translateX(-101%);
+    transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: 0;
+  }
+  .header-cta:hover::before { transform: translateX(0); }
+  .header-cta:hover { color: #fff; }
+  .header-cta > * { position: relative; z-index: 1; }
+  .header-cta .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent-2);
+    box-shadow: 0 0 6px var(--accent-2);
+    animation: pulse 1.5s infinite;
+  }
+  .header-cta:hover .dot { background: #fff; box-shadow: 0 0 6px #fff; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* Mobile menu (Aアイコン) */
+  .menu-btn {
+    display: none;
+    position: fixed; top: 18px; right: 24px;
+    width: 56px; height: 56px;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    border-radius: 50%;
+    align-items: center; justify-content: center;
+    cursor: pointer; padding: 0; z-index: 110;
+    overflow: hidden;
+  }
+  .menu-btn::before {
+    content: ''; position: absolute; inset: -2px;
+    border-radius: 50%; padding: 2px;
+    background: conic-gradient(from 0deg, var(--accent), var(--accent-2), var(--accent), var(--accent-2), var(--accent));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    animation: ringSpin 4s linear infinite; opacity: 0.9;
+  }
+  @keyframes ringSpin { to { transform: rotate(360deg); } }
+  .menu-btn .a-letter {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: 22px; line-height: 1;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2), var(--accent));
+    background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientFlow 3s linear infinite;
+    position: relative; z-index: 1;
+  }
+  @keyframes gradientFlow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+  body.menu-open .menu-btn { background: transparent; border-color: rgba(255,255,255,0.2); }
+  body.menu-open .menu-btn::before { opacity: 0.4; }
+  body.menu-open .menu-btn .a-letter {
+    color: #fff; -webkit-text-fill-color: #fff;
+    background: none; animation: none;
+  }
+  .menu-overlay {
+    position: fixed; inset: 0; background: #05060a;
+    z-index: 100; opacity: 0; visibility: hidden;
+    transition: opacity 0.5s, visibility 0.5s;
+    display: flex; flex-direction: column;
+    padding: 100px 32px 48px; overflow-y: auto;
+  }
+  body.menu-open .menu-overlay { opacity: 1; visibility: visible; }
+  body.menu-open { overflow: hidden; }
+  .menu-list { list-style: none; margin-top: 60px; }
+  .menu-list li { border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .menu-list li a {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 0;
+    color: #fff; text-decoration: none;
+    font-family: 'Syncopate', sans-serif;
+    font-size: 18px; font-weight: 700; letter-spacing: 0.15em;
+    transition: color 0.3s, padding-left 0.3s;
+  }
+  .menu-list li a:hover, .menu-list li a:active {
+    color: var(--accent-2); padding-left: 12px;
+  }
+  .menu-list li a .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.3);
+  }
+  .menu-list li a .ja {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px; letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500; margin-top: 4px; display: block;
+  }
+  .menu-list li a > div { display: flex; flex-direction: column; }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    position: relative; z-index: 10;
+    padding: 110px 48px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; color: var(--fg-3);
+    display: flex; align-items: center; gap: 12px;
+    text-transform: uppercase;
+  }
+  .breadcrumb a { color: var(--fg-3); text-decoration: none; transition: color 0.3s; }
+  .breadcrumb a:hover { color: var(--accent); }
+  .breadcrumb .sep { opacity: 0.4; }
+  .breadcrumb .current { color: var(--accent); }
+
+  /* Page Hero */
+  .page-hero {
+    position: relative; z-index: 10;
+    padding: 60px 48px 80px;
+  }
+  .page-hero-inner { max-width: 1400px; margin: 0 auto; }
+  .page-hero-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.3em;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 14px;
+    text-transform: uppercase;
+  }
+  .page-hero-meta::before {
+    content: ''; width: 32px; height: 1px; background: var(--accent);
+  }
+  .page-hero h1 {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: clamp(44px, 8vw, 130px);
+    line-height: 0.95; letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    background-size: 200% 200%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 6s ease infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  .page-hero .jp {
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 700;
+    font-size: clamp(18px, 2.2vw, 26px);
+    margin-bottom: 20px;
+  }
+  .page-hero .lead {
+    font-size: 15px; line-height: 2; color: var(--fg-2);
+    max-width: 640px;
+  }
+  .page-hero .lead .em { color: var(--fg); font-weight: 500; }
+  .page-hero-stats {
+    display: flex; gap: 32px; flex-wrap: wrap;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .page-hero-stat .v {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .page-hero-stat .l {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.25em;
+    color: var(--fg-3); text-transform: uppercase;
+  }
+
+  /* Section common */
+  section.section {
+    position: relative; z-index: 10;
+    padding: 100px 48px;
+    border-top: 1px solid var(--line);
+  }
+  .container { max-width: 1400px; margin: 0 auto; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.3em;
+    color: var(--accent); margin-bottom: 24px;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-label::before {
+    content: ''; width: 32px; height: 1px; background: var(--accent);
+  }
+  .section-label.green { color: var(--accent-2); }
+  .section-label.green::before { background: var(--accent-2); }
+  .section-title {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: clamp(32px, 5vw, 64px);
+    line-height: 1; letter-spacing: -0.01em;
+    margin-bottom: 28px;
+  }
+  .section-desc {
+    font-size: 14px; line-height: 2;
+    color: var(--fg-2);
+    max-width: 720px; margin-bottom: 60px;
+  }
+  .section-desc .em { color: var(--fg); font-weight: 500; }
+
+  /* Flow diagram (3-stage) */
+  .flow {
+    display: grid; grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 20px; align-items: stretch;
+  }
+  .flow-node {
+    background: var(--bg-2);
+    border: var(--line-key);
+    padding: 36px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s, box-shadow 0.4s;
+  }
+  .flow-node:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,0.18);
+  }
+  .flow-node::before {
+    content: ''; position: absolute;
+    top: 0; right: 0;
+    width: 80px; height: 80px;
+    pointer-events: none;
+  }
+  .flow-node.client::before { background: radial-gradient(circle, var(--accent-soft), transparent 70%); }
+  .flow-node.alcs::before {
+    background:
+      radial-gradient(circle at 70% 30%, var(--accent-soft), transparent 65%),
+      radial-gradient(circle at 30% 70%, var(--accent-soft-2), transparent 65%);
+    width: 140px; height: 140px;
+  }
+  .flow-node.indiv::before { background: radial-gradient(circle, var(--accent-soft-2), transparent 70%); }
+  .flow-node .role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.3em;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  .flow-node.client .role { color: var(--accent); }
+  .flow-node.alcs .role {
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
+  .flow-node.indiv .role { color: var(--accent-2); }
+  .flow-node .name-en {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: clamp(18px, 1.8vw, 24px);
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .flow-node .name-jp {
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 14px;
+    color: var(--fg);
+  }
+  .flow-node .desc {
+    font-size: 12px; line-height: 1.85;
+    color: var(--fg-2);
+  }
+  .flow-arrow {
+    align-self: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--fg-3); letter-spacing: 0.2em;
+    text-align: center;
+  }
+  .flow-arrow .a {
+    font-size: 20px;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    display: block;
+    line-height: 1;
+  }
+  .flow-arrow .l {
+    margin-top: 6px;
+    font-size: 9px;
+    color: var(--fg-3);
+  }
+
+  /* Referral process */
+  .process-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: var(--line-key);
+  }
+  .process-step {
+    background: var(--bg-2);
+    padding: 32px 28px;
+    position: relative;
+    transition: background 0.4s;
+    min-height: 240px;
+    display: flex; flex-direction: column;
+  }
+  .process-step:hover { background: rgba(0, 102, 255, 0.02); }
+  .process-step .num {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: 12px; letter-spacing: 0.3em;
+    color: var(--fg-3); margin-bottom: 24px;
+  }
+  .process-step .num strong {
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 32px; font-weight: 700;
+    margin-right: 8px;
+  }
+  .process-step .ttl {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700; font-size: 16px;
+    line-height: 1.5; margin-bottom: 8px;
+  }
+  .process-step .ttl-en {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.25em;
+    color: var(--accent); margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .process-step .desc {
+    font-size: 12.5px; line-height: 1.85;
+    color: var(--fg-2);
+    margin-top: auto;
+  }
+
+  /* Reward tiers (3 plans) */
+  .tiers {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .tier {
+    background: var(--bg-2);
+    border: var(--line-key);
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s, box-shadow 0.4s;
+    display: flex; flex-direction: column;
+    min-height: 380px;
+  }
+  .tier:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,0.18);
+  }
+  .tier::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; height: 3px; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .tier:hover::after { width: 100%; }
+  .tier.featured {
+    background: linear-gradient(180deg, var(--bg-2), rgba(0, 102, 255, 0.03));
+    border-color: var(--accent);
+  }
+  .tier.featured::before {
+    content: 'POPULAR';
+    position: absolute;
+    top: 16px; right: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.25em;
+    padding: 4px 10px;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    color: #fff;
+    border-radius: 999px;
+  }
+  .tier-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.3em;
+    color: var(--fg-3);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .tier.featured .tier-label { color: var(--accent); }
+  .tier-amount {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: clamp(36px, 4vw, 56px);
+    line-height: 1;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+  .tier-amount .unit {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 16px;
+    -webkit-text-fill-color: var(--fg-2);
+    color: var(--fg-2);
+    margin-left: 4px;
+  }
+  .tier-unit-row {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    color: var(--fg-3);
+    margin-bottom: 28px;
+    text-transform: uppercase;
+  }
+  .tier-desc {
+    font-size: 13px; line-height: 1.9;
+    color: var(--fg-2);
+    margin-bottom: 20px;
+  }
+  .tier-list {
+    list-style: none;
+    margin-top: auto;
+  }
+  .tier-list li {
+    padding: 10px 0;
+    font-size: 13px;
+    color: var(--fg-2);
+    display: flex; gap: 10px; align-items: baseline;
+    border-top: 1px dashed var(--line);
+  }
+  .tier-list li:last-child { border-bottom: 1px dashed var(--line); }
+  .tier-list li::before {
+    content: ''; flex-shrink: 0;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent-2);
+    transform: translateY(8px);
+  }
+
+  /* Startup support callout */
+  .support-callout {
+    margin-top: 60px;
+    background: var(--bg-2);
+    border: var(--line-key);
+    padding: 48px;
+    display: grid; grid-template-columns: auto 1fr;
+    gap: 48px; align-items: center;
+    position: relative; overflow: hidden;
+  }
+  .support-callout::before {
+    content: ''; position: absolute;
+    top: -40%; right: -10%;
+    width: 400px; height: 400px;
+    background:
+      radial-gradient(circle at 30% 50%, var(--accent-soft), transparent 60%),
+      radial-gradient(circle at 70% 50%, var(--accent-soft-2), transparent 60%);
+    filter: blur(40px); pointer-events: none;
+  }
+  .support-callout > * { position: relative; z-index: 1; }
+  .support-icon {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: 80px; line-height: 1;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .support-callout .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.3em;
+    color: var(--accent-2);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .support-callout h3 {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700; font-size: 24px;
+    line-height: 1.5; margin-bottom: 12px;
+  }
+  .support-callout p {
+    font-size: 14px; line-height: 1.95;
+    color: var(--fg-2);
+  }
+
+  /* Activities (4 cards) */
+  .activities {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .activity-card {
+    background: var(--bg-2);
+    border: var(--line-key);
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s, box-shadow 0.4s;
+    display: flex; flex-direction: column;
+    min-height: 260px;
+  }
+  .activity-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,0.18);
+  }
+  .activity-card::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; height: 3px; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .activity-card:hover::after { width: 100%; }
+  .activity-card.featured {
+    background: linear-gradient(180deg, var(--bg-2), rgba(0, 184, 107, 0.03));
+    border-color: var(--accent-2);
+  }
+  .activity-card.featured::before {
+    content: 'HIGH UNIT';
+    position: absolute;
+    top: 16px; right: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.25em;
+    padding: 4px 10px;
+    background: linear-gradient(120deg, var(--accent-2), var(--accent));
+    color: #fff;
+    border-radius: 999px;
+  }
+  .activity-num {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: 64px; line-height: 1;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .activity-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .activity-tag::before {
+    content: ''; width: 18px; height: 1px; background: var(--accent);
+  }
+  .activity-card.featured .activity-tag { color: var(--accent-2); }
+  .activity-card.featured .activity-tag::before { background: var(--accent-2); }
+  .activity-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700; font-size: 19px;
+    line-height: 1.5;
+    margin-bottom: 14px;
+    color: var(--fg);
+  }
+  .activity-sub {
+    display: inline-block;
+    font-size: 11px;
+    color: var(--accent-2);
+    font-weight: 500;
+    margin-top: 4px;
+    padding: 3px 10px;
+    background: rgba(0, 184, 107, 0.08);
+    border-radius: 999px;
+    border: 1px solid rgba(0, 184, 107, 0.3);
+  }
+  .activity-desc {
+    font-size: 13px; line-height: 1.95;
+    color: var(--fg-2);
+    margin-top: auto;
+  }
+  .activity-desc strong {
+    color: var(--fg); font-weight: 500;
+  }
+
+  /* Registration flow (4 steps stacked) */
+  .reg-flow {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: var(--line-key);
+  }
+  .reg-step {
+    background: var(--bg-2);
+    padding: 32px 36px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 36px;
+    align-items: center;
+    transition: background 0.4s;
+    position: relative;
+  }
+  .reg-step:hover { background: rgba(0, 102, 255, 0.02); }
+  .reg-step-num {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: clamp(48px, 6vw, 88px);
+    line-height: 1;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
+    min-width: 100px;
+    text-align: center;
+  }
+  .reg-step-body {
+    border-left: 1px solid var(--line);
+    padding-left: 36px;
+  }
+  .reg-step-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .reg-step-tag::before {
+    content: ''; width: 18px; height: 1px; background: var(--accent);
+  }
+  .reg-step-ttl {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700; font-size: 20px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    color: var(--fg);
+  }
+  .reg-step-desc {
+    font-size: 13.5px; line-height: 1.95;
+    color: var(--fg-2);
+  }
+
+  /* FAQ */
+  .faq {
+    display: grid; grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: var(--line-key);
+  }
+  .faq-item {
+    background: var(--bg-2);
+    padding: 28px 32px;
+    transition: background 0.4s;
+  }
+  .faq-item:hover { background: rgba(0, 102, 255, 0.02); }
+  .faq-q {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700; font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    display: flex; gap: 12px; align-items: baseline;
+  }
+  .faq-q::before {
+    content: 'Q'; flex-shrink: 0;
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: 16px;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .faq-a {
+    font-size: 13px; line-height: 1.95;
+    color: var(--fg-2);
+    padding-left: 26px;
+    position: relative;
+  }
+  .faq-a::before {
+    content: 'A'; position: absolute;
+    left: 0; top: 0;
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: 14px; color: var(--fg-3);
+  }
+
+  /* CTA (LINE register) */
+  .cta-line {
+    position: relative; z-index: 10;
+    padding: 120px 48px;
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+  .cta-line-pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.3em;
+    color: var(--accent-2);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+  .cta-line h2 {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: clamp(32px, 5vw, 64px);
+    line-height: 1; letter-spacing: -0.01em;
+    margin-bottom: 20px;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .cta-line .jp {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700; font-size: 18px;
+    color: var(--fg);
+    margin-bottom: 24px;
+  }
+  .cta-line .desc {
+    color: var(--fg-2);
+    font-size: 14px; line-height: 1.9;
+    margin-bottom: 48px;
+    max-width: 560px; margin-left: auto; margin-right: auto;
+  }
+  .line-button {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 22px 40px;
+    background: #06C755;  /* LINE official green */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 999px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700; font-size: 15px;
+    letter-spacing: 0.05em;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 12px 30px -10px rgba(6, 199, 85, 0.5);
+  }
+  .line-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px -10px rgba(6, 199, 85, 0.6);
+  }
+  .line-button .icon {
+    width: 24px; height: 24px;
+    background: #fff;
+    border-radius: 6px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #06C755;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: -0.5px;
+  }
+  .line-button .arrow-circle {
+    width: 24px; height: 24px;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .line-button:hover .arrow-circle {
+    transform: rotate(-45deg);
+    border-color: #fff;
+  }
+  .line-button .arrow-circle svg { width: 10px; height: 10px; }
+  .cta-line-note {
+    margin-top: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em;
+    color: var(--fg-3);
+    text-transform: uppercase;
+  }
+
+  /* Footer */
+  footer {
+    position: relative; z-index: 10; padding: 48px;
+    border-top: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; color: var(--fg-2);
+    display: flex; justify-content: space-between; gap: 24px;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .flow { grid-template-columns: 1fr; }
+    .flow-arrow {
+      transform: rotate(90deg);
+      padding: 8px 0;
+    }
+    .process-grid { grid-template-columns: 1fr 1fr; }
+    .tiers { grid-template-columns: 1fr; }
+    .support-callout { grid-template-columns: 1fr; gap: 24px; }
+    .support-icon { font-size: 56px; }
+    .activities { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    html, body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+    header { padding: 16px 24px; }
+    .logo-sub { display: none; }
+    nav { display: none; }
+    .header-cta { display: none; }
+    .menu-btn { display: flex; }
+    .breadcrumb { padding: 90px 24px 0; font-size: 10px; letter-spacing: 0.15em; }
+    .page-hero { padding: 32px 24px 60px; }
+    section.section { padding: 80px 24px; }
+    .process-grid { grid-template-columns: 1fr; }
+    .flow-node { padding: 28px 22px; }
+    .support-callout { padding: 32px 24px; }
+    .faq-item { padding: 22px 24px; }
+    .cta-line { padding: 80px 24px; }
+    .page-hero-stats { gap: 20px; }
+    .activity-card { padding: 28px 24px; min-height: 0; }
+    .activity-num { font-size: 48px; }
+    .reg-step {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 28px 24px;
+    }
+    .reg-step-num {
+      min-width: 0;
+      text-align: left;
+      font-size: 48px;
+    }
+    .reg-step-body {
+      border-left: none;
+      padding-left: 0;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+    }
+    footer { flex-direction: column; gap: 16px; padding: 24px; }
+  }
+
+  /* Section title Japanese subtitle (refined: monospace, gray, subtle) */
+  .section-title-jp {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--fg-3);
+    margin-top: -8px;
+    margin-bottom: 32px;
+    letter-spacing: 0.15em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title-jp::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--fg-3);
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="grid-bg"></div>
+<div class="noise"></div>
+
+<header>
+  <a href="index.html" class="logo">
+    ALCS
+    <span class="logo-sub">CO., LTD.</span>
+  </a>
+  <nav>
+    <ul>
+      <li><a href="index.html#philosophy"><span class="en">Philosophy</span><span class="ja">理念</span></a></li>
+      <li><a href="index.html#products"><span class="en">Products</span><span class="ja">プロダクト</span></a></li>
+      <li><a href="index.html#services"><span class="en">Services</span><span class="ja">サービス</span></a></li>
+      <li><a href="cases.html"><span class="en">Cases</span><span class="ja">実績事例</span></a></li>
+      <li><a href="index.html#company"><span class="en">Company</span><span class="ja">会社概要</span></a></li>
+      <li><a href="#" class="current"><span class="en">Agent</span><span class="ja">協業エージェント</span></a></li>
+      <li><a href="recruit.html"><span class="en">Join</span><span class="ja">採用情報</span></a></li>
+    </ul>
+  </nav>
+  <a href="contact.html" class="header-cta">
+    <span class="dot"></span>
+    <span>Contact Us</span>
+  </a>
+  <button class="menu-btn" id="menuBtn" aria-label="Menu">
+    <span class="a-letter">A</span>
+  </button>
+</header>
+
+<div class="menu-overlay" id="menuOverlay">
+  <ul class="menu-list">
+    <li><a href="index.html#philosophy" data-menu><div><span>Philosophy</span><span class="ja">理念</span></div><span class="num">01</span></a></li>
+    <li><a href="index.html#products" data-menu><div><span>Products</span><span class="ja">プロダクト</span></div><span class="num">02</span></a></li>
+    <li><a href="index.html#services" data-menu><div><span>Services</span><span class="ja">サービス</span></div><span class="num">03</span></a></li>
+    <li><a href="cases.html" data-menu><div><span>Case Studies</span><span class="ja">実績事例</span></div><span class="num">04</span></a></li>
+    <li><a href="index.html#company" data-menu><div><span>Company</span><span class="ja">会社概要</span></div><span class="num">05</span></a></li>
+    <li><a href="agent.html" data-menu><div><span>Collab Agent</span><span class="ja">協業エージェント</span></div><span class="num">06</span></a></li>
+    <li><a href="recruit.html" data-menu><div><span>Join Us</span><span class="ja">採用情報</span></div><span class="num">07</span></a></li>
+    <li><a href="contact.html" data-menu><div><span>Contact</span><span class="ja">お問い合わせ</span></div><span class="num">08</span></a></li>
+  </ul>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">HOME</a>
+  <span class="sep">/</span>
+  <span class="current">COLLABORATION AGENT</span>
+</div>
+
+<!-- Page Hero -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-meta">Collaboration Agent / 協業エージェント募集</div>
+    <h1>COLLAB.<br>AGENT.</h1>
+    <p class="jp">営業から、事業を作る。</p>
+    <p class="lead">
+      ALCSの5事業領域（営業・コンサル・採用・建設・IT）に対し、
+      <span class="em">案件創出・営業活動・パートナー紹介で協業いただける方</span>を募集しています。
+      単なる紹介ではなく、ともに事業を作り、成果に応じた収益を共有する関係を目指します。
+    </p>
+    <div class="page-hero-stats">
+      <div class="page-hero-stat">
+        <div class="v">¥20-100<span style="font-size:0.5em;letter-spacing:0.1em;color:var(--fg-2);-webkit-text-fill-color:var(--fg-2);"> 万 / 月</span></div>
+        <div class="l">Monthly Collab Reward</div>
+      </div>
+      <div class="page-hero-stat">
+        <div class="v">STARTUP</div>
+        <div class="l">Support Available</div>
+      </div>
+      <div class="page-hero-stat">
+        <div class="v">5</div>
+        <div class="l">Business Domains</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 01 : Scope (3 styles) -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">[ 01 / SCOPE ]</div>
+    <h2 class="section-title">WAYS TO<br>COLLABORATE.</h2>
+    <p class="section-title-jp">協業の3つのスタイル。</p>
+    <p class="section-desc">
+      協業エージェントとして参画いただける、<span class="em">3つのスタイル</span>があります。
+      あなたの強みや稼働可能性に応じて、選んでいただける形にしています。
+    </p>
+
+    <div class="process-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="process-step">
+        <div class="num"><strong>A</strong>SALES</div>
+        <div class="ttl-en">Sales Collaboration</div>
+        <div class="ttl">営業で協業する</div>
+        <p class="desc">
+          ALCSの5事業領域の案件をクライアント企業へご提案・受注いただく協業。法人営業・新規開拓ができる方向け。営業活動自体が事業になります。
+        </p>
+      </div>
+      <div class="process-step">
+        <div class="num"><strong>B</strong>PEOPLE</div>
+        <div class="ttl-en">Talent Collaboration</div>
+        <div class="ttl">人材で協業する</div>
+        <p class="desc">
+          業務委託案件にマッチする個人事業主・専門家をご紹介いただく協業。あなたのネットワークから、適切な人材を弊社案件にお繋ぎいただきます。
+        </p>
+      </div>
+      <div class="process-step">
+        <div class="num"><strong>C</strong>HYBRID</div>
+        <div class="ttl-en">Hybrid Collaboration</div>
+        <div class="ttl">複合で協業する</div>
+        <p class="desc">
+          営業と人材紹介の両方を組み合わせる協業。案件創出から人材アサインまで一気通貫で関わる、最も収益性の高いスタイルです。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 02 : Activities (4 specific activity types) -->
+<section class="section">
+  <div class="container">
+    <div class="section-label green">[ 02 / ACTIVITIES ]</div>
+    <h2 class="section-title">WHAT YOU<br>CAN DO.</h2>
+    <p class="section-title-jp">4つの活動領域。</p>
+    <p class="section-desc">
+      協業エージェントとして、<span class="em">4つの活動</span>から、ご自身のスキルや時間に応じて自由に組み合わせて取り組んでいただけます。
+      営業も実務も、両方できる方は最大限の収益機会があります。
+    </p>
+
+    <div class="activities">
+      <div class="activity-card">
+        <div class="activity-num">01</div>
+        <div class="activity-tag">SALES / 営業活動</div>
+        <h3 class="activity-title">弊社サービスの営業</h3>
+        <p class="activity-desc">
+          ALCSの5事業領域（営業プロモーション・コンサル・採用・建設・IT）のサービスをクライアント企業へご提案・受注いただく活動。営業力が、そのまま事業収益になります。
+        </p>
+      </div>
+
+      <div class="activity-card featured">
+        <div class="activity-num">02</div>
+        <div class="activity-tag">EXECUTION / 実務遂行</div>
+        <h3 class="activity-title">受注委託案件の実施<br><span class="activity-sub">通常より高単価で稼働可能</span></h3>
+        <p class="activity-desc">
+          弊社が受託したクライアント案件を、業務委託として実際にあなたが遂行する活動。協業エージェント枠なら、通常の業務委託より<strong>高単価で稼働</strong>いただけます。
+        </p>
+      </div>
+
+      <div class="activity-card">
+        <div class="activity-num">03</div>
+        <div class="activity-tag">SCOUT / 実行者スカウト</div>
+        <h3 class="activity-title">受注案件の実行者をスカウト</h3>
+        <p class="activity-desc">
+          弊社案件を実行できる方をご紹介いただく活動。事務業務・コール業務・営業業務・IT開発プログラミング業務など、対象は<strong>多岐にわたります</strong>。あなたのネットワークが収益源に。
+        </p>
+      </div>
+
+      <div class="activity-card">
+        <div class="activity-num">04</div>
+        <div class="activity-tag">RECRUIT / 仲間スカウト</div>
+        <h3 class="activity-title">協業エージェント自体をスカウト</h3>
+        <p class="activity-desc">
+          新たな協業エージェントメンバーをご紹介いただく活動。<strong>協業エージェントとして活動できる方</strong>をお繋ぎいただくことで、紹介報酬を継続的に得られます。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 03 : Structure -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">[ 03 / STRUCTURE ]</div>
+    <h2 class="section-title">HOW IT<br>WORKS.</h2>
+    <p class="section-title-jp">事業の仕組み。</p>
+    <p class="section-desc">
+      クライアントから弊社が受託した業務委託案件を、<span class="em">ご紹介いただいた個人事業主に発注</span>する仕組みです。
+      あなたは紹介者として、契約の入口に立つだけ。実務は紹介された個人事業主が遂行します。
+    </p>
+
+    <div class="flow">
+      <div class="flow-node client">
+        <div class="role">Step 01</div>
+        <div class="name-en">CLIENT</div>
+        <div class="name-jp">クライアント企業</div>
+        <p class="desc">業務委託案件を発注。営業・コンサル・採用・建設・IT 領域。</p>
+      </div>
+      <div class="flow-arrow">
+        <span class="a">→</span>
+        <span class="l">受託</span>
+      </div>
+      <div class="flow-node alcs">
+        <div class="role">ALCS</div>
+        <div class="name-en">ALCS</div>
+        <div class="name-jp">弊社（中継・管理）</div>
+        <p class="desc">クライアントから受託し、契約・品質管理・支払いを担います。</p>
+      </div>
+      <div class="flow-arrow">
+        <span class="a">→</span>
+        <span class="l">委託</span>
+      </div>
+      <div class="flow-node indiv">
+        <div class="role">Step 03</div>
+        <div class="name-en">INDIVIDUAL</div>
+        <div class="name-jp">個人事業主</div>
+        <p class="desc">エージェントの紹介で参画。実務を遂行し、報酬を得ます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 02 : Referral Process -->
+<section class="section">
+  <div class="container">
+    <div class="section-label green">[ 04 / COLLAB PROCESS ]</div>
+    <h2 class="section-title">COLLAB<br>FLOW.</h2>
+    <p class="section-title-jp">協業の流れ。</p>
+    <p class="section-desc">
+      <span class="em">案件創出から収益発生まで</span>のシンプルなフロー。
+      営業で参入する場合も、人材紹介で参入する場合も、4つのステップで動きます。
+    </p>
+
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="num"><strong>01</strong>STEP</div>
+        <div class="ttl-en">Find</div>
+        <div class="ttl">機会を見つける</div>
+        <p class="desc">あなたのネットワークから、案件機会(クライアント側)もしくは実行できる人材を見つけます。</p>
+      </div>
+      <div class="process-step">
+        <div class="num"><strong>02</strong>STEP</div>
+        <div class="ttl-en">Propose</div>
+        <div class="ttl">弊社へ提案する</div>
+        <p class="desc">LINE・面談を通じて、案件や人材の情報を共有。弊社と一緒に提案の組み立てを行います。</p>
+      </div>
+      <div class="process-step">
+        <div class="num"><strong>03</strong>STEP</div>
+        <div class="ttl-en">Build</div>
+        <div class="ttl">事業として形にする</div>
+        <p class="desc">弊社が契約・品質管理・実行体制の構築を担当。あなたは協業パートナーとして並走します。</p>
+      </div>
+      <div class="process-step">
+        <div class="num"><strong>04</strong>STEP</div>
+        <div class="ttl-en">Earn</div>
+        <div class="ttl">協業報酬の発生</div>
+        <p class="desc">案件成立・稼働開始後、発注規模に応じた協業報酬を継続的にお支払いします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 03 : Reward Tiers -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">[ 05 / REWARD ]</div>
+    <h2 class="section-title">COLLAB<br>REWARD.</h2>
+    <p class="section-title-jp">協業報酬のプラン。</p>
+    <p class="section-desc">
+      協業パートナー様の実績例として、<span class="em">月額20万〜100万円超</span>の協業報酬が発生しています。
+      案件規模・継続期間・協業スタイルに応じて、以下のようなプランで還元しています。
+    </p>
+
+    <div class="tiers">
+      <div class="tier">
+        <div class="tier-label">Tier / 01</div>
+        <div class="tier-amount">¥20<span class="unit">万〜</span></div>
+        <div class="tier-unit-row">/ Month</div>
+        <p class="tier-desc">
+          1〜2件の案件・人材紹介が成立した段階での、目安となる協業報酬レンジです。
+        </p>
+        <ul class="tier-list">
+          <li>標準的な協業報酬</li>
+          <li>毎月の継続発生</li>
+          <li>協業の入口として</li>
+        </ul>
+      </div>
+
+      <div class="tier featured">
+        <div class="tier-label">Tier / 02</div>
+        <div class="tier-amount">¥50<span class="unit">万〜</span></div>
+        <div class="tier-unit-row">/ Month</div>
+        <p class="tier-desc">
+          複数案件・継続的な協業が回り始めた段階で到達する、安定収益のレンジです。
+        </p>
+        <ul class="tier-list">
+          <li>複数案件の継続協業</li>
+          <li>安定した月次収益</li>
+          <li>事業化が見えてくる</li>
+        </ul>
+      </div>
+
+      <div class="tier">
+        <div class="tier-label">Tier / 03</div>
+        <div class="tier-amount">¥100<span class="unit">万 超</span></div>
+        <div class="tier-unit-row">/ Month</div>
+        <p class="tier-desc">
+          協業を事業として確立されたパートナー様が到達する、上位のレンジです。
+        </p>
+        <ul class="tier-list">
+          <li>本格的な協業事業</li>
+          <li>独立・起業視野へ</li>
+          <li>ALCSと共同展開も</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Startup support callout -->
+    <div class="support-callout">
+      <div class="support-icon">+</div>
+      <div>
+        <div class="label">PLUS / Startup Support</div>
+        <h3>実績次第で、起業支援も。</h3>
+        <p>
+          協業を通じて確かな実績を積まれたパートナー様には、ALCSが起業のサポートまでお手伝いします。
+          法人化、業務体制の構築、初期クライアントの紹介まで、これまで培ってきた経験を惜しみなく共有します。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 06 : Registration Flow -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">[ 06 / REGISTRATION ]</div>
+    <h2 class="section-title">HOW TO<br>REGISTER.</h2>
+    <p class="section-title-jp">登録の流れ。</p>
+    <p class="section-desc">
+      協業エージェントとしての登録は、<span class="em">4つのシンプルなステップ</span>で完了します。
+      費用は一切かかりません。まずは公式LINEからお気軽にどうぞ。
+    </p>
+
+    <div class="reg-flow">
+      <div class="reg-step">
+        <div class="reg-step-num">01</div>
+        <div class="reg-step-body">
+          <div class="reg-step-tag">STEP / LINE</div>
+          <h3 class="reg-step-ttl">公式LINEに登録</h3>
+          <p class="reg-step-desc">
+            まずはALCSの公式LINEを友だち追加してください。担当者がご挨拶し、面談日程の調整をご案内します。
+          </p>
+        </div>
+      </div>
+      <div class="reg-step">
+        <div class="reg-step-num">02</div>
+        <div class="reg-step-body">
+          <div class="reg-step-tag">STEP / INTERVIEW</div>
+          <h3 class="reg-step-ttl">面談設定</h3>
+          <p class="reg-step-desc">
+            オンラインまたは対面で面談を実施。あなたの強み・希望する協業スタイル・稼働可能時間を伺い、最適な協業設計を一緒に考えます。
+          </p>
+        </div>
+      </div>
+      <div class="reg-step">
+        <div class="reg-step-num">03</div>
+        <div class="reg-step-body">
+          <div class="reg-step-tag">STEP / CONTRACT</div>
+          <h3 class="reg-step-ttl">契約（NDA・基本契約）</h3>
+          <p class="reg-step-desc">
+            秘密保持契約(NDA)と協業の基本契約を締結。報酬体系・支払い条件・対応領域を明文化し、安心して活動いただける状態を作ります。
+          </p>
+        </div>
+      </div>
+      <div class="reg-step">
+        <div class="reg-step-num">04</div>
+        <div class="reg-step-body">
+          <div class="reg-step-tag">STEP / START</div>
+          <h3 class="reg-step-ttl">活動スタート</h3>
+          <p class="reg-step-desc">
+            契約締結後、すぐに協業エージェントとしての活動を開始いただけます。案件情報の共有・営業支援ツール・サポート体制まで一通りご提供します。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 07 : FAQ -->
+<section class="section">
+  <div class="container">
+    <div class="section-label green">[ 07 / FAQ ]</div>
+    <h2 class="section-title">QUESTIONS.</h2>
+    <p class="section-title-jp">よくあるご質問。</p>
+    <p class="section-desc">
+      よくいただくご質問をまとめました。
+      その他ご不明な点は、お気軽に公式LINEからお問い合わせください。
+    </p>
+
+    <div class="faq">
+      <div class="faq-item">
+        <div class="faq-q">どんな案件・人材を持ち込めばいいですか?</div>
+        <div class="faq-a">ALCSの5事業領域(営業プロモーション・営業コンサル・採用・建設・IT)に該当する案件、もしくはこれらの領域で業務委託として実務遂行できる方が対象です。具体的な事例はLINE登録後に共有します。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">営業だけで参入することはできますか?</div>
+        <div class="faq-a">はい、可能です。法人営業・新規開拓の経験をお持ちなら、案件をクライアント企業へご提案いただく「営業協業(Sales Collaboration)」スタイルから始めていただけます。実行は弊社と連携する個人事業主・パートナーが担います。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">協業報酬はいつ支払われますか?</div>
+        <div class="faq-a">クライアント案件の成立・稼働開始後、毎月の請求サイクルに合わせて継続的にお支払いします。一時報酬ではなく、案件の稼働が続く限り発生する継続型です。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">本業をしながらでも、協業に参加できますか?</div>
+        <div class="faq-a">はい、副業としてのご参加も歓迎しています。協業実績ベースで報酬が発生するため、コミットできる時間に応じた関わり方が可能です。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">起業支援とは具体的に何をしてもらえますか?</div>
+        <div class="faq-a">協業を通じて一定の実績を積まれた方が対象です。法人化準備、運営体制構築、初期クライアントの紹介など、独立・起業を多面的にサポートします。詳細は実績を見て個別にご相談させていただきます。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">登録に費用はかかりますか?</div>
+        <div class="faq-a">登録・面談・参加に費用は一切かかりません。成果報酬型の仕組みです。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA : LINE register -->
+<section class="cta-line">
+  <div class="cta-line-pre">[ Register Now ]</div>
+  <h2>JOIN AS<br>COLLAB.</h2>
+  <p class="jp">公式LINEから、協業エージェント登録</p>
+  <p class="desc">
+    登録は公式LINEから。担当者がLINEで詳細をご案内し、まずはお話を伺います。<br>
+    費用は一切かかりません。気軽にご連絡ください。
+  </p>
+  <a href="#" class="line-button">
+    <span class="icon">L</span>
+    <span>公式LINEで登録する</span>
+    <span class="arrow-circle">
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M2 6h8M6 2l4 4-4 4"/>
+      </svg>
+    </span>
+  </a>
+  <div class="cta-line-note">No Cost / No Commitment</div>
+</section>
+
+<footer>
+  <div>© ALCS CO., LTD. ALL RIGHTS RESERVED.</div>
+  <div>SYSTEM ONLINE / v1.0.0</div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('a, button, .tier, .process-step, .flow-node, .faq-item').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '40px'; ring.style.height = '40px'; });
+  });
+
+  // Mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  if (menuBtn) {
+    menuBtn.addEventListener('click', () => document.body.classList.toggle('menu-open'));
+    document.querySelectorAll('[data-menu]').forEach(a => {
+      a.addEventListener('click', () => document.body.classList.remove('menu-open'));
+    });
+  }
+</script>
+</body>
+</html>

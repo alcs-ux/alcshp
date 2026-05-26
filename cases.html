@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CASE STUDIES — ALCS CO., LTD.</title>
+<meta name="description" content="株式会社ALCSの実績事例。営業プロモーション、コンサルティング、採用支援、建設、ITソリューション。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Syncopate:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f6f3;
+    --bg-2: #ffffff;
+    --fg: #0a0a0a;
+    --fg-2: #555555;
+    --fg-3: #888888;
+    --accent: #0066ff;
+    --accent-2: #00b86b;
+    --accent-soft: rgba(0, 102, 255, 0.18);
+    --accent-soft-2: rgba(0, 184, 107, 0.18);
+    --grid: rgba(10, 10, 10, 0.06);
+    --line: rgba(10, 10, 10, 0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    background: var(--bg); color: var(--fg);
+    font-family: 'Noto Sans JP', sans-serif;
+    overflow-x: hidden; cursor: none;
+    min-height: 100vh;
+  }
+  .cursor {
+    position: fixed; width: 8px; height: 8px;
+    background: var(--accent); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    position: fixed; width: 40px; height: 40px;
+    border: 1px solid var(--fg); border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.4s ease, width 0.3s, height 0.3s;
+    transform: translate(-50%, -50%);
+  }
+  .grid-bg {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+  .noise {
+    position: fixed; inset: 0; z-index: 100; pointer-events: none;
+    opacity: 0.05; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Header */
+  header {
+    position: fixed; top: 0; left: 0; right: 0;
+    padding: 24px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 50;
+  }
+  .logo {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: 18px; letter-spacing: 0.3em; color: var(--fg);
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .logo::before {
+    content: '◢';
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .logo-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em; color: var(--fg-3);
+    margin-left: 4px; padding-left: 12px;
+    border-left: 1px solid var(--line);
+  }
+
+  /* Bilingual nav */
+  nav ul {
+    display: flex; gap: 28px; list-style: none;
+  }
+  nav a {
+    color: var(--fg); text-decoration: none;
+    transition: color 0.3s;
+    display: flex; flex-direction: column; align-items: flex-start;
+    gap: 4px;
+    line-height: 1;
+  }
+  nav a .en {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  nav a .ja {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 9px; letter-spacing: 0.15em;
+    color: var(--fg-3);
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+  nav a:hover { color: var(--accent); }
+  nav a:hover .ja { color: var(--accent); }
+  nav a.current { color: var(--accent); }
+  nav a.current .ja { color: var(--accent); }
+
+  /* Header CTA */
+  .header-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 11px 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid transparent;
+    background-image:
+      linear-gradient(var(--bg), var(--bg)),
+      linear-gradient(120deg, var(--accent), var(--accent-2));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    color: var(--fg);
+    border-radius: 999px;
+    transition: color 0.3s;
+    position: relative; overflow: hidden;
+    margin-left: 28px;
+  }
+  .header-cta::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    transform: translateX(-101%);
+    transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: 0;
+  }
+  .header-cta:hover::before { transform: translateX(0); }
+  .header-cta:hover { color: #fff; }
+  .header-cta > * { position: relative; z-index: 1; }
+  .header-cta .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent-2);
+    box-shadow: 0 0 6px var(--accent-2);
+    animation: pulse 1.5s infinite;
+  }
+  .header-cta:hover .dot { background: #fff; box-shadow: 0 0 6px #fff; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* Mobile menu */
+  .menu-btn {
+    display: none;
+    position: fixed; top: 18px; right: 24px;
+    width: 56px; height: 56px;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    border-radius: 50%;
+    align-items: center; justify-content: center;
+    cursor: pointer; padding: 0; z-index: 110;
+    overflow: hidden;
+  }
+  .menu-btn::before {
+    content: ''; position: absolute; inset: -2px;
+    border-radius: 50%; padding: 2px;
+    background: conic-gradient(from 0deg, var(--accent), var(--accent-2), var(--accent), var(--accent-2), var(--accent));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    animation: ringSpin 4s linear infinite; opacity: 0.9;
+  }
+  @keyframes ringSpin { to { transform: rotate(360deg); } }
+  .menu-btn .a-letter {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: 22px; line-height: 1;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2), var(--accent));
+    background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientFlow 3s linear infinite;
+    position: relative; z-index: 1;
+  }
+  @keyframes gradientFlow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+  body.menu-open .menu-btn { background: transparent; border-color: rgba(255,255,255,0.2); }
+  body.menu-open .menu-btn::before { opacity: 0.4; }
+  body.menu-open .menu-btn .a-letter {
+    color: #fff; -webkit-text-fill-color: #fff;
+    background: none; animation: none;
+  }
+  .menu-overlay {
+    position: fixed; inset: 0; background: #05060a;
+    z-index: 100; opacity: 0; visibility: hidden;
+    transition: opacity 0.5s, visibility 0.5s;
+    display: flex; flex-direction: column;
+    padding: 100px 32px 48px; overflow-y: auto;
+  }
+  body.menu-open .menu-overlay { opacity: 1; visibility: visible; }
+  body.menu-open { overflow: hidden; }
+  .menu-list { list-style: none; margin-top: 60px; }
+  .menu-list li { border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .menu-list li a {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 0;
+    color: #fff; text-decoration: none;
+    font-family: 'Syncopate', sans-serif;
+    font-size: 18px; font-weight: 700; letter-spacing: 0.15em;
+    transition: color 0.3s, padding-left 0.3s;
+  }
+  .menu-list li a:hover, .menu-list li a:active {
+    color: var(--accent-2); padding-left: 12px;
+  }
+  .menu-list li a .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.3);
+  }
+  .menu-list li a .ja {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px; letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+    margin-top: 4px;
+    display: block;
+  }
+  .menu-list li a > div { display: flex; flex-direction: column; }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    position: relative; z-index: 10;
+    padding: 110px 48px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; color: var(--fg-3);
+    display: flex; align-items: center; gap: 12px;
+    text-transform: uppercase;
+  }
+  .breadcrumb a { color: var(--fg-3); text-decoration: none; transition: color 0.3s; }
+  .breadcrumb a:hover { color: var(--accent); }
+  .breadcrumb .sep { opacity: 0.4; }
+  .breadcrumb .current { color: var(--accent); }
+
+  /* Page Hero */
+  .page-hero {
+    position: relative; z-index: 10;
+    padding: 60px 48px 80px;
+  }
+  .page-hero-inner {
+    max-width: 1400px; margin: 0 auto;
+  }
+  .page-hero-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.3em;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 14px;
+    text-transform: uppercase;
+  }
+  .page-hero-meta::before {
+    content: ''; width: 32px; height: 1px; background: var(--accent);
+  }
+  .page-hero h1 {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: clamp(44px, 8vw, 130px);
+    line-height: 0.95; letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    background-size: 200% 200%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 6s ease infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  .page-hero .jp {
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 700;
+    font-size: clamp(18px, 2.2vw, 26px);
+    margin-bottom: 20px;
+  }
+  .page-hero .lead {
+    font-size: 15px; line-height: 2; color: var(--fg-2);
+    max-width: 640px;
+  }
+  .page-hero .lead .em { color: var(--fg); font-weight: 500; }
+
+  /* Filter Bar */
+  .filter-wrap {
+    position: relative; z-index: 10;
+    padding: 0 48px 32px;
+  }
+  .filter-inner {
+    max-width: 1400px; margin: 0 auto;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    padding: 24px 28px;
+  }
+  .filter-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.3em;
+    color: var(--fg-3);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .filter-head::before {
+    content: ''; width: 20px; height: 1px; background: var(--fg-3);
+  }
+  .filter-buttons {
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+  .filter-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    color: var(--fg);
+    cursor: pointer;
+    border-radius: 999px;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+    font-weight: 500;
+  }
+  .filter-btn .jp {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px; color: var(--fg-3);
+    margin-left: 6px;
+    font-weight: 500;
+  }
+  .filter-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .filter-btn:hover .jp { color: var(--accent); }
+  .filter-btn.active {
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    color: #fff;
+    border-color: transparent;
+  }
+  .filter-btn.active .jp { color: rgba(255,255,255,0.85); }
+  .filter-btn .count {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    background: var(--line);
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 700;
+  }
+  .filter-btn.active .count {
+    background: rgba(255,255,255,0.25);
+  }
+
+  /* Cases grid */
+  .cases-wrap {
+    position: relative; z-index: 10;
+    padding: 0 48px 100px;
+  }
+  .cases-inner {
+    max-width: 1400px; margin: 0 auto;
+  }
+  .cases-result {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.25em;
+    color: var(--fg-3);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+  .cases-result strong { color: var(--accent); font-weight: 700; }
+  .cases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .case-card {
+    background: var(--bg-2);
+    padding: 36px 32px 32px;
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+    transition: background 0.4s;
+    min-height: 420px;
+  }
+  .case-card:hover {
+    background: rgba(0, 102, 255, 0.02);
+  }
+  .case-card::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; height: 2px; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .case-card:hover::after { width: 100%; }
+  .case-card.hidden { display: none; }
+  .case-tags {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .case-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+  .case-tag.domain {
+    background: rgba(0, 102, 255, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(0, 102, 255, 0.3);
+  }
+  .case-tag.industry {
+    background: rgba(0, 184, 107, 0.08);
+    color: var(--accent-2);
+    border: 1px solid rgba(0, 184, 107, 0.3);
+  }
+  .case-num {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 11px; letter-spacing: 0.3em;
+    color: var(--fg-3);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .case-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 18px; font-weight: 700; line-height: 1.5;
+    color: var(--fg);
+    margin-bottom: 8px;
+  }
+  .case-client {
+    font-size: 12px;
+    color: var(--fg-3);
+    margin-bottom: 20px;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+  .case-stats {
+    display: flex; gap: 20px;
+    padding: 16px 0;
+    border-top: 1px dashed var(--line);
+    border-bottom: 1px dashed var(--line);
+    margin-bottom: 20px;
+  }
+  .case-stat {
+    flex: 1;
+  }
+  .case-stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    color: var(--fg-3);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .case-stat-value {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 22px; font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .case-desc {
+    font-size: 12.5px; line-height: 1.85;
+    color: var(--fg-2);
+    margin-bottom: auto;
+  }
+  .case-desc .em {
+    color: var(--fg); font-weight: 500;
+  }
+  .case-foot {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .case-foot-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    color: var(--fg-3);
+    text-transform: uppercase;
+  }
+  .case-foot-arrow {
+    width: 28px; height: 28px;
+    border: 1px solid var(--line); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--fg-3);
+    transition: all 0.3s;
+  }
+  .case-card:hover .case-foot-arrow {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: rotate(-45deg);
+  }
+  .case-foot-arrow svg { width: 11px; height: 11px; }
+
+  .cases-empty {
+    text-align: center;
+    padding: 80px 24px;
+    color: var(--fg-3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: none;
+  }
+  .cases-empty.show { display: block; }
+
+  /* CTA */
+  .cta-section {
+    position: relative; z-index: 10;
+    padding: 100px 48px;
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+  .cta-pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.3em;
+    color: var(--accent-2);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+  .cta-title {
+    font-family: 'Syncopate', sans-serif; font-weight: 700;
+    font-size: clamp(32px, 5vw, 64px);
+    line-height: 1; letter-spacing: -0.01em;
+    margin-bottom: 24px;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .cta-sub {
+    color: var(--fg-2);
+    font-size: 14px; line-height: 1.9;
+    margin-bottom: 40px;
+  }
+  .cta-buttons {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  }
+  .cta-button {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 18px 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: transform 0.4s, color 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .cta-button-primary {
+    border: 1px solid transparent;
+    background-image:
+      linear-gradient(var(--bg), var(--bg)),
+      linear-gradient(120deg, var(--accent), var(--accent-2));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    color: var(--fg);
+  }
+  .cta-button-primary::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    transform: translateX(-101%);
+    transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: 0;
+  }
+  .cta-button-primary:hover::before { transform: translateX(0); }
+  .cta-button-primary:hover { color: #fff; transform: translateY(-2px); }
+  .cta-button > * { position: relative; z-index: 1; }
+  .cta-button .ja {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px; letter-spacing: 0.1em;
+    color: var(--fg-3);
+    margin-left: 6px;
+    font-weight: 500;
+  }
+  .cta-button-primary:hover .ja { color: rgba(255,255,255,0.8); }
+  .cta-button .arrow-circle {
+    width: 24px; height: 24px;
+    border: 1px solid currentColor; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: transform 0.3s;
+  }
+  .cta-button:hover .arrow-circle { transform: rotate(-45deg); }
+  .cta-button .arrow-circle svg { width: 10px; height: 10px; }
+
+  /* Footer */
+  footer {
+    position: relative; z-index: 10; padding: 48px;
+    border-top: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; color: var(--fg-2);
+    display: flex; justify-content: space-between; gap: 24px;
+  }
+
+  /* Responsive */
+  @media (max-width: 1080px) {
+    .cases-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    html, body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+    header { padding: 16px 24px; }
+    .logo-sub { display: none; }
+    nav { display: none; }
+    .header-cta { display: none; }
+    .menu-btn { display: flex; }
+    .breadcrumb { padding: 90px 24px 0; font-size: 10px; letter-spacing: 0.15em; }
+    .page-hero { padding: 32px 24px 60px; }
+    .filter-wrap { padding: 0 24px 24px; }
+    .filter-inner { padding: 20px 18px; }
+    .filter-buttons { gap: 8px; }
+    .filter-btn { padding: 8px 14px; font-size: 10px; letter-spacing: 0.15em; }
+    .filter-btn .jp { font-size: 9px; margin-left: 4px; }
+    .cases-wrap { padding: 0 24px 80px; }
+    .cases-grid { grid-template-columns: 1fr; }
+    .case-card { padding: 28px 24px; min-height: 0; }
+    .cta-section { padding: 80px 24px; }
+    .cta-buttons { gap: 12px; }
+    footer { flex-direction: column; gap: 16px; padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="grid-bg"></div>
+<div class="noise"></div>
+
+<header>
+  <a href="index.html" class="logo">
+    ALCS
+    <span class="logo-sub">CO., LTD.</span>
+  </a>
+  <nav>
+    <ul>
+      <li><a href="index.html#philosophy"><span class="en">Philosophy</span><span class="ja">理念</span></a></li>
+      <li><a href="index.html#products"><span class="en">Products</span><span class="ja">プロダクト</span></a></li>
+      <li><a href="index.html#services"><span class="en">Services</span><span class="ja">サービス</span></a></li>
+      <li><a href="#" class="current"><span class="en">Cases</span><span class="ja">実績事例</span></a></li>
+      <li><a href="index.html#company"><span class="en">Company</span><span class="ja">会社概要</span></a></li>
+      <li><a href="agent.html"><span class="en">Agent</span><span class="ja">協業エージェント</span></a></li>
+      <li><a href="recruit.html"><span class="en">Join</span><span class="ja">採用情報</span></a></li>
+    </ul>
+  </nav>
+  <a href="contact.html" class="header-cta">
+    <span class="dot"></span>
+    <span>Contact Us</span>
+  </a>
+  <button class="menu-btn" id="menuBtn" aria-label="Menu">
+    <span class="a-letter">A</span>
+  </button>
+</header>
+
+<div class="menu-overlay" id="menuOverlay">
+  <ul class="menu-list">
+    <li><a href="index.html#philosophy" data-menu><div><span>Philosophy</span><span class="ja">理念</span></div><span class="num">01</span></a></li>
+    <li><a href="index.html#products" data-menu><div><span>Products</span><span class="ja">プロダクト</span></div><span class="num">02</span></a></li>
+    <li><a href="index.html#services" data-menu><div><span>Services</span><span class="ja">サービス</span></div><span class="num">03</span></a></li>
+    <li><a href="cases.html" data-menu><div><span>Case Studies</span><span class="ja">実績事例</span></div><span class="num">04</span></a></li>
+    <li><a href="index.html#company" data-menu><div><span>Company</span><span class="ja">会社概要</span></div><span class="num">05</span></a></li>
+    <li><a href="agent.html" data-menu><div><span>Collab Agent</span><span class="ja">協業エージェント</span></div><span class="num">06</span></a></li>
+    <li><a href="recruit.html" data-menu><div><span>Join Us</span><span class="ja">採用情報</span></div><span class="num">07</span></a></li>
+    <li><a href="contact.html" data-menu><div><span>Contact</span><span class="ja">お問い合わせ</span></div><span class="num">08</span></a></li>
+  </ul>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">HOME</a>
+  <span class="sep">/</span>
+  <span class="current">CASE STUDIES</span>
+</div>
+
+<!-- Page Hero -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-meta">Case Studies / 実績事例</div>
+    <h1>CASE<br>STUDIES.</h1>
+    <p class="jp">数字と現場で、結果を出してきた。</p>
+    <p class="lead">
+      ALCSが5つの事業領域で取り組んできた、<span class="em">実績事例</span>の一覧です。<br>
+      ※ お客様情報は守秘義務の関係上、「業界＋規模」での匿名表記としています。
+    </p>
+  </div>
+</section>
+
+<!-- Filter Bar -->
+<div class="filter-wrap">
+  <div class="filter-inner">
+    <div class="filter-head">Filter by Domain / 事業領域で絞り込む</div>
+    <div class="filter-buttons" id="filterButtons">
+      <button class="filter-btn active" data-filter="all">
+        ALL<span class="jp">すべて</span><span class="count">10</span>
+      </button>
+      <button class="filter-btn" data-filter="sales-promotion">
+        Sales Promotion<span class="jp">営業プロモーション</span><span class="count">2</span>
+      </button>
+      <button class="filter-btn" data-filter="sales-consulting">
+        Sales Consulting<span class="jp">営業コンサル</span><span class="count">2</span>
+      </button>
+      <button class="filter-btn" data-filter="recruiting">
+        Recruiting<span class="jp">採用支援</span><span class="count">3</span>
+      </button>
+      <button class="filter-btn" data-filter="construction">
+        Construction<span class="jp">建設</span><span class="count">1</span>
+      </button>
+      <button class="filter-btn" data-filter="it">
+        IT Solution<span class="jp">IT</span><span class="count">2</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Cases Grid -->
+<section class="cases-wrap">
+  <div class="cases-inner">
+    <div class="cases-result" id="casesResult"><strong>10</strong> CASES SHOWN</div>
+
+    <div class="cases-grid" id="casesGrid">
+
+      <!-- CASE 01 -->
+      <div class="case-card" data-domain="sales-promotion">
+        <div class="case-tags">
+          <span class="case-tag domain">Sales Promotion</span>
+          <span class="case-tag industry">家電量販</span>
+        </div>
+        <div class="case-num">CASE — 001</div>
+        <div class="case-title">繁忙期の販促体制を、現場力で立て直し。</div>
+        <div class="case-client">家電量販業界 全国チェーン様</div>
+        <div class="case-stats">
+          <div class="case-stat">
+            <div class="case-stat-label">SALES</div>
+            <div class="case-stat-value">×2.4</div>
+          </div>
+          <div class="case-stat">
+            <div class="case-stat-label">APPROACH</div>
+            <div class="case-stat-value">+185%</div>
+          </div>
+        </div>
+        <p class="case-desc">
+          年末商戦の販促人員不足を、<span class="em">3〜5名のプロモーションチーム編成</span>で解決。1日のKPIを細分化し、店頭アプローチ数と成約率を同時に向上させました。
+        </p>
+        <div class="case-foot">
+          <span class="case-foot-label">View Details</span>
+          <span class="case-foot-arrow">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 6h8M6 2l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- CASE 02 -->
+      <div class="case-card" data-domain="sales-promotion">
+        <div class="case-tags">
+          <span class="case-tag domain">Sales Promotion</span>
+          <span class="case-tag industry">通信</span>
+        </div>
+        <div class="case-num">CASE — 002</div>
+        <div class="case-title">商業施設での新規契約獲得を3倍に。</div>
+        <div class="case-client">通信業界 大手キャリア様</div>
+        <div class="case-stats">
+          <div class="case-stat">
+            <div class="case-stat-label">CONTRACT</div>
+            <div class="case-stat-value">×3.1</div>
+          </div>
+          <div class="case-stat">
+            <div class="case-stat-label">COST</div>
+            <div class="case-stat-value">-22%</div>
+          </div>
+        </div>
+        <p class="case-desc">
+          商業施設での新規回線契約獲得を、<span class="em">立ち位置・トーク・クロージングまで最適化</span>。チーム制でカバーしながら、コスト効率も改善しました。
+        </p>
+        <div class="case-foot">
+          <span class="case-foot-label">View Details</span>
+          <span class="case-foot-arrow">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 6h8M6 2l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- CASE 03 -->
+      <div class="case-card" data-domain="sales-consulting">
+        <div class="case-tags">
+          <span class="case-tag domain">Sales Consulting</span>
+          <span class="case-tag industry">SaaS</span>
+        </div>
+        <div class="case-num">CASE — 003</div>
+        <div class="case-title">商談化率を倍増、12週間の伴走支援。</div>
+        <div class="case-client">SaaS業界 シリーズB企業様</div>
+        <div class="case-stats">
+          <div class="case-stat">
+            <div class="case-stat-label">DEAL RATE</div>
+            <div class="case-stat-value">×2.0</div>
+          </div>
+          <div class="case-stat">
+            <div class="case-stat-label">CYCLE</div>
+            <div class="case-stat-value">-31%</div>
+          </div>
+        </div>
+        <p class="case-desc">
+          Market→Strategy→Executionの12週プログラムで、<span class="em">商談化率を倍増</span>。営業組織のPDCAを回転させる体制まで一緒に構築しました。
+        </p>
+        <div class="case-foot">
+          <span class="case-foot-label">View Details</span>
+          <span class="case-foot-arrow">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 6h8M6 2l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- CASE 04 -->
+      <div class="case-card" data-domain="sales-consulting">
+        <div class="case-tags">
+          <span class="case-tag domain">Sales Consulting</span>
+          <span class="case-tag industry">人材</span>
+        </div>
+        <div class="case-num">CASE — 004</div>
+        <div class="case-title">営業BPOで、社内リソースを戦略業務へ。</div>
+        <div class="case-client">人材業界 中堅エージェント様</div>
+        <div class="case-stats">
+          <div class="case-stat">
+            <div class="case-stat-label">PIPELINE</div>
+            <div class="case-stat-value">×1.8</div>
+          </div>
+          <div class="case-stat">
+            <div class="case-stat-label">HOURS</div>
+            <div class="case-stat-value">-40%</div>
+          </div>
+        </div>
+        <p class="case-desc">
+          営業活動の一部をBPOで巻き取り、<span class="em">クライアントの社内リソースを高単価業務に集中</span>。パイプライン全体の質量を改善しました。
+        </p>
+        <div class="case-foot">
+          <span class="case-foot-label">View Details</span>
+          <span class="case-foot-arrow">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 6h8M6 2l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- CASE 05 -->
+      <div class="case-card" data-domain="recruiting">
+        <div class="case-tags">
+          <span class="case-tag domain">Recruiting</span>
+          <span class="case-tag industry">保育</span>
+        </div>
+        <div class="case-num">CASE — 005</div>
+        <div class="case-title">慢性的な保育士不足を、媒体に頼らず解決。</div>
+        <div class="case-client">保育業界 社会福祉法人様</div>
+        <div class="case-stats">
+          <div class="case-stat">
+            <div class="case-stat-label">APPLY</div>
+            <div class="case-stat-value">×4.5</div>
+          </div>
+          <div class="case-stat">
+            <div class="case-stat-label">COST</div>
+            <div class="case-stat-value">-58%</div>
+          </div>
+        </div>
+        <p class="case-desc">
+          ほいくる/採用部の<span class="em">業界特化型BPO</span>で、求人媒体に頼らない採用導線を構築。応募数大幅増の一方、採用単価を半減させました。
+        </p>
+        <div class="case-foot">
+          <span class="case-foot-label">View Details</span>
+          <span class="case-foot-arrow">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 6h8M6 2l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- CASE 06 -->
+      <div class="case-card" data-domain="recruiting">
+        <div class="case-tags">
+          <span class="case-tag domain">Recruiting</span>
+          <span class="case-tag industry">建設</span>
+        </div>
+        <div class="case-num">CASE — 006</div>
+        <div class="case-title">業界理解からの記事制作で、応募数3倍。</div>
+        <div class="case-client">建設業界 元請ゼネコン様</div>
+        <div class="case-stats">
+          <div class="case-stat">
+            <div class="case-stat-label">APPLY</div>
+            <div class="case-stat-value">×3.2</div>
+          </div>
+          <div class="case-stat">
+            <div class="case-stat-label">QUALITY</div>
+            <div class="case-stat-value">+72%</div>
+          </div>
+        </div>
+        <p class="case-desc">
+          建設/採用部による<span class="em">業界を深く理解した記事制作</span>とマーケット分析。表面的な訴求でない採用ブランディングで、応募の質量ともに改善。
+        </p>
+        <div class="case-foot">
+          <span class="case-foot-label">View Details</span>
+          <span class="case-foot-arrow">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 6h8M6 2l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- CASE 07 -->
+      <div class="case-card" data-domain="recruiting">
+        <div class="case-tags">
+          <span class="case-tag domain">Recruiting</span>
+          <span class="case-tag industry">美容</span>
+        </div>
+        <div class="case-num">CASE — 007</div>
+        <div class="case-title">サロン採用、応募から定着までを設計。</div>
+        <div class="case-client">美容業界 大手サロンチェーン様</div>
+        <div class="case-stats">
+          <div class="case-stat">
+            <div class="case-stat-label">APPLY</div>
+            <div class="case-stat-value">×2.8</div>
+          </div>
+          <div class="case-stat">
+            <div class="case-stat-label">RETENTION</div>
+            <div class="case-stat-value">+45%</div>
+          </div>
+        </div>
+        <p class="case-desc">
+          応募導線・選考・<span class="em">入社後定着までの一気通貫設計</span>。離職率の高かった現場を、定着率改善まで含めて支援しました。
+        </p>
+        <div class="case-foot">
+          <span class="case-foot-label">View Details</span>
+          <span class="case-foot-arrow">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 6h8M6 2l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- CASE 08 -->
+      <div class="case-card" data-domain="construction">
+        <div class="case-tags">
+          <span class="case-tag domain">Construction</span>
+          <span class="case-tag industry">商業施設</span>
+        </div>
+        <div class="case-num">CASE — 008</div>
+        <div class="case-title">商業施設改装、工期厳守の現場運営。</div>
+        <div class="case-client">商業施設運営 大手デベロッパー様</div>
+        <div class="case-stats">
+          <div class="case-stat">
+            <div class="case-stat-label">DELIVERY</div>
+            <div class="case-stat-value">100%</div>
+          </div>
+          <div class="case-stat">
+            <div class="case-stat-label">SAFETY</div>
+            <div class="case-stat-value">ZERO</div>
+          </div>
+        </div>
+        <p class="case-desc">
+          営業中の商業施設での内装改装を、<span class="em">夜間工事＋工程管理</span>で工期厳守。安全管理も徹底し、無事故無災害で完工しました。
+        </p>
+        <div class="case-foot">
+          <span class="case-foot-label">View Details</span>
+          <span class="case-foot-arrow">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 6h8M6 2l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- CASE 09 -->
+      <div class="case-card" data-domain="it">
+        <div class="case-tags">
+          <span class="case-tag domain">IT Solution</span>
+          <span class="case-tag industry">小売</span>
+        </div>
+        <div class="case-num">CASE — 009</div>
+        <div class="case-title">採用サイト全面リニューアル、応募率倍増。</div>
+        <div class="case-client">小売業界 全国チェーン様</div>
+        <div class="case-stats">
+          <div class="case-stat">
+            <div class="case-stat-label">APPLY RATE</div>
+            <div class="case-stat-value">×2.1</div>
+          </div>
+          <div class="case-stat">
+            <div class="case-stat-label">SPEED</div>
+            <div class="case-stat-value">+58%</div>
+          </div>
+        </div>
+        <p class="case-desc">
+          採用サイトの<span class="em">構造・コピー・導線を全面再設計</span>。ユーザー目線で組み直したことで、応募完了率と表示速度を同時に改善。
+        </p>
+        <div class="case-foot">
+          <span class="case-foot-label">View Details</span>
+          <span class="case-foot-arrow">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 6h8M6 2l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- CASE 10 -->
+      <div class="case-card" data-domain="it">
+        <div class="case-tags">
+          <span class="case-tag domain">IT Solution</span>
+          <span class="case-tag industry">不動産</span>
+        </div>
+        <div class="case-num">CASE — 010</div>
+        <div class="case-title">業務効率化システムで、業務時間を6割削減。</div>
+        <div class="case-client">不動産業界 中堅デベロッパー様</div>
+        <div class="case-stats">
+          <div class="case-stat">
+            <div class="case-stat-label">TIME</div>
+            <div class="case-stat-value">-62%</div>
+          </div>
+          <div class="case-stat">
+            <div class="case-stat-label">ERRORS</div>
+            <div class="case-stat-value">ZERO</div>
+          </div>
+        </div>
+        <p class="case-desc">
+          物件情報の取り込み・検証・処理を自動化する<span class="em">業務効率化システム</span>を開発。手作業に依存していた業務を6割削減しました。
+        </p>
+        <div class="case-foot">
+          <span class="case-foot-label">View Details</span>
+          <span class="case-foot-arrow">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 6h8M6 2l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="cases-empty" id="casesEmpty">
+      No cases found for this filter.
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-pre">[ Let's Build Together ]</div>
+  <h2 class="cta-title">YOUR CASE,<br>NEXT.</h2>
+  <p class="cta-sub">
+    あなたの事業課題も、私たちと一緒に「事例」に変えませんか。<br>
+    まずはお気軽にご相談ください。
+  </p>
+  <div class="cta-buttons">
+    <a href="contact.html" class="cta-button cta-button-primary">
+      <span>CONTACT US</span>
+      <span class="ja">お仕事のご相談</span>
+      <span class="arrow-circle">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M2 6h8M6 2l4 4-4 4"/>
+        </svg>
+      </span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div>© ALCS CO., LTD. ALL RIGHTS RESERVED.</div>
+  <div>SYSTEM ONLINE / v1.0.0</div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('a, button, .case-card, .filter-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '40px'; ring.style.height = '40px'; });
+  });
+
+  // Mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  if (menuBtn) {
+    menuBtn.addEventListener('click', () => document.body.classList.toggle('menu-open'));
+    document.querySelectorAll('[data-menu]').forEach(a => {
+      a.addEventListener('click', () => document.body.classList.remove('menu-open'));
+    });
+  }
+
+  // Filter
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const caseCards = document.querySelectorAll('.case-card');
+  const casesResult = document.getElementById('casesResult');
+  const casesEmpty = document.getElementById('casesEmpty');
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // active state
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      let visible = 0;
+
+      caseCards.forEach(card => {
+        const domain = card.dataset.domain;
+        if (filter === 'all' || domain === filter) {
+          card.classList.remove('hidden');
+          visible++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      // Update result count
+      casesResult.innerHTML = `<strong>${visible}</strong> CASES SHOWN`;
+
+      // Empty state
+      if (visible === 0) {
+        casesEmpty.classList.add('show');
+      } else {
+        casesEmpty.classList.remove('show');
+      }
+    });
+  });
+</script>
+</body>
+</html>
